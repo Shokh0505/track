@@ -1,0 +1,32 @@
+.main-login {
+    background-color: #000;
+    min-height: 100vh;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container {
+    min-width: 25rem;
+    border: 3px solid #0000FF;
+    border-radius: 2rem;
+    padding: 2rem;
+}
+
+.form-group input {
+    width: 20rem;
+    background-color: #fff;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    align-self: center;
+    justify-self: center;
+    font-size: 1.1rem;
+}
+
+::placeholder {
+    color: #0000FF;
+}
+

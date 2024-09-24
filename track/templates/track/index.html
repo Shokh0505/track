@@ -1,0 +1,70 @@
+{% extends 'track/template.html' %}
+{% load static %}
+
+{% block title %}
+    Nazorat
+{% endblock %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'track/css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <div class="main_heading d-flex justify-content-between align-items-center">
+            <span>
+                Intizom
+            </span> 
+            <div class="circle">
+                <div class="circle-inner">
+                    <div class="percentage">0.0%</div>
+                </div>
+            </div>  
+        </div>
+        <div class="main-text">
+            <h4 class="main_h4">Intizom</h4>
+            <div class="motivation">
+                Boshlash uchun qadam tanlang
+            </div>
+        </div>
+        <div class="time">00:00:00</div>
+        <!-- Buttons -->
+        <div class="buttons">
+            <button class="btn btn-start" onclick="handleStart(event)" disabled="True">Start</button>
+            <button class="btn btn-pause" onclick="handlePause(event)">Pause</button>
+            <button class="btn btn-stop" onclick="handleStop(event)">Stop</button>
+        </div>
+        <!-- /Buttons -->
+
+        <div class="settings hidden"></div>
+
+        <!-- Right bar -->
+        <div class="right-bar">
+            <div class="bar-top">
+                <div class="arrow-container arrow-container-right" onclick="handleRight(event)">
+                    <i class="fa-solid fa-arrow-right arrow"></i>
+                </div>
+                <div class="arrow-container arrow-container-right plus" onclick="handleAddGoal(event)">
+                    <i class="fa-solid fa-plus arrow"></i>
+                    <span class="tooltip-add">Add a goal</span>
+                </div>
+            </div>
+            <div class="input-goal text-center d-flex justify-content-around mt-2 hidden">
+                <input type="text" placeholder="Add a goal" class="p-1 input-add"> 
+                <button class="btn btn-add" onclick="handleGoalAdding()">
+                    Add
+                </button>
+            </div>
+            <div class="goals">
+            </div>
+        </div>
+        <!-- Right bar -->
+
+        <div class="arrow-container arrow-container-left" onclick="handleLeft(event)">
+            <i class="fa-solid fa-arrow-left arrow"></i>
+        </div>
+
+    </div>
+    <script src="{% static 'track/js/main.js' %}"></script>
+    <script src="{% static 'track/js/index.js' %}"></script>
+{% endblock %}

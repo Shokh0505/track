@@ -1,0 +1,310 @@
+/*----------------- Main styles --------------------- */
+.main {
+    height: 100vh;
+    width: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+    url('../images/pexels-samerdaboul-1209998.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    overflow: auto;
+}
+
+.main_heading {
+    padding: 1.3rem 0.5rem;
+    font-size: 2rem;
+}
+
+.main-text {
+    text-align: center;
+    padding-top: 1rem;
+}
+
+.main-text h4 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.main-text .motivation {
+    font-size: 1rem;
+}
+
+.time {
+    font-size: 2rem;
+    width: 15rem;
+    height: 15rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 3rem auto 0;
+    text-align: center;
+    padding: 4rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 5px 5px rgba(255, 255, 255, 0.8);
+}
+
+.buttons {
+    text-align: center;
+}
+
+.buttons .btn {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.8rem 1.2rem;
+    margin: 1rem 1rem 0;
+    border-radius: 1rem;
+}
+
+.buttons .btn:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #000;
+}
+
+/* ----------------- /Main styles ------------------------------ */
+
+/* ------------------ Bar styles -------------------------------- */
+.right-bar {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    right: 0;
+    top: 0;
+    height: 100vh;
+    width: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: 0.5s ease-in-out;
+}
+
+.arrow {
+    font-size: 1.4rem;
+}
+
+.arrow-container {
+    position: relative;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s ease-in-out;
+}
+
+.arrow-container:hover {
+    background-color: #fff;
+}
+
+.arrow-container:hover .arrow {
+    color: #000;
+}
+
+.arrow-container-left {
+    position: absolute;
+    right: 0;
+    top: 1rem;
+}
+
+.arrow-container-right {
+    margin-top: 1rem;
+}
+
+.goal {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.steps-to-goal {
+    font-size: 1rem;
+    padding: 0.4rem 0;
+    display: none;
+    overflow: hidden;
+    transition: all 0.5s ease;
+}
+
+@keyframes collapse {
+    from {
+        height: 0;
+    }
+
+    90% {
+        height: 1rem;
+    }
+
+    to {
+        height: auto;
+    }
+    
+}
+
+.step-animation {
+    height: 0;
+    animation-name: collapse;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+
+.step {
+    box-shadow: 1px 1px 5px #fff;
+}
+
+.step:hover {
+    box-shadow: 2px 3px 5px #fff;
+    background-color: #fff;
+    color: #000;
+}
+
+.step:hover .fa-solid {
+    color: #000;
+}
+
+.step-selected .fa-solid {
+    color: #000;
+}
+
+
+hr {
+    background-color: #fff;
+}
+
+.btn-pause, .btn-stop {
+    display: none;
+}
+
+
+.bar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.tooltip-add {
+    visibility: hidden;
+    font-size: 0.9rem;
+    left: -4rem;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    bottom: -3rem;
+    width: 5rem;
+    padding: 0.4rem;
+    border-radius: 1rem;
+}
+
+.plus:hover .tooltip-add {
+    visibility: visible;
+}
+
+.input-add {
+    color: #000;
+    border: none;
+}
+
+.btn-add {
+    background-color: #000;
+    color: #fff;
+    box-shadow: 1px 1px 2px 2px #fff;
+}
+
+.btn-add:hover {
+    color: #fff;
+    box-shadow: 1px 1px 8px 8px #fff;
+}
+
+.btn-add-step {
+    color: #fff;
+    background-color: #000;
+    box-shadow: 0.5px 0.5px 3px 0.5px #fff;
+}
+
+.btn-add-step:hover {
+    color: #fff;
+    box-shadow: 1px 1px 5px 1px #fff;
+}
+
+.step-input-add {
+    color: #fff;
+    background: #000;
+    border: 1px solid #fff;
+    padding: 5px 3px;
+}
+
+.step-input-add::placeholder {
+    color: #fff;
+}
+
+.step-selected {
+    color: #000;
+    background: #fff;
+}
+
+.circle {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background: conic-gradient(#4caf50 0% 0%, #ddd 0% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-right: 3rem;
+}
+
+.circle-inner {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.percentage {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    position: absolute;
+    left: -6rem;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+.no-plan-text {
+    left: -10rem;
+}
+
+/* ---------------- Settings part ----------------- */
+.settings {
+    padding-top: 3rem;
+    width: 70%;
+}
+
+.main-step {
+    padding: 2rem 1rem;
+    font-size: 1.5rem;
+}
+
+.main-step input {
+    color: #000;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.settings-info {
+    font-size: 1.5rem;
+}

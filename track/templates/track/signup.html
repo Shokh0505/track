@@ -1,0 +1,52 @@
+{% extends 'track/template.html' %}
+{% load static %}
+
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'track/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-login">
+        <div class="form-container d-flex flex-column justify-content-center align-items-center">
+            <form action="/signup/" method="POST" autocomplete="off">
+                {% csrf_token %}
+                <h4 class="mb-3 display-5 text-center">Signup</h4>
+                <div class="form-group my-3">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="username" 
+                        placeholder="Username" 
+                        name="username"
+                        autocomplete="Username"
+                    >   
+                </div>
+                <div class="form-group my-3">
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        placeholder="Email" 
+                        name="email">    
+                </div>
+                <div class="form-group my-3">
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="password" 
+                        placeholder="Password" 
+                        name="password"
+                    >
+                </div>   
+                <div class="btn_div text-center">
+                    <button class="btn btn-primary text-center">Signup</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
