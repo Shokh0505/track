@@ -1,0 +1,26 @@
+# Python-specific
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django-specific
+*.log
+db.sqlite3
+/media/
+*.pot
+*.pyc
+
+# Ignore virtual environment
+venv/
+env/
+.venv/
+
+# Ignore IDE settings
+.idea/
+.vscode/
+
+# Ignore environment variables
+.env
+
+# Static and media files
+/static/
