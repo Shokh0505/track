@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dom_goals = document.querySelector('.goals');
 
     // ------------------- Add goals to the dom ---------------------------------- //
-    fetch('http://127.0.0.1:8000/list_goals/', {
+    fetch('https://shokh0505.pythonanywhere.com/list_goals/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="goal p-1" data-id="${goal.id}" onclick="handleOpenSteps(event)">
             ${goal.title}
             <i class="fa-solid fa-gear" onclick="handleGoalSettings(event)"></i>
-        </div> 
+        </div>
         <div class="steps-to-goal pl-3">
             <div class="step-input">
                 <input type="text" placeholder="Add a step" class="step-input-add">
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --------------- Get the steps ------------------------------ //
-    fetch('http://127.0.0.1:8000/list_steps/', {
+    fetch('https://shokh0505.pythonanywhere.com/list_steps/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ function handleStart(event) {
     // Hit the endpoint in order to notify we have started
     const step_id = document.querySelector('.step-selected').dataset.id;
 
-    fetch('http://127.0.0.1:8000/start_time/', {
+    fetch('https://shokh0505.pythonanywhere.com/start_time/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -219,15 +219,15 @@ function handleStop(event){
     document.querySelector('.btn-pause').style.display = 'none';
     document.querySelector('.time').innerText = '00:00:00';
     event.currentTarget.style.display = 'none';
-    
+
     const duration = hours.toString().padStart(2, '0') + ':' +
                     minutes.toString().padStart(2, '0') + ':' +
                     seconds.toString().padStart(2, '0');
 
     let step_id = document.querySelector('.step-selected').dataset.id;
-    
+
     // -------------- save the duration ----------------- //
-    fetch('http://127.0.0.1:8000/stop_timer/', {
+    fetch('https://shokh0505.pythonanywhere.com/stop_timer/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -261,7 +261,7 @@ function handleAddGoal() {
 
 function handleGoalAdding() {
     const goal = document.querySelector('.input-add').value;
-    
+
     if(!goal) {
         alert("Please, enter a valid goal!");
         return
@@ -270,7 +270,7 @@ function handleGoalAdding() {
     // Make a request to add the goal to the database
     csrf = getCookie('csrftoken');
     let goal_id;
-    fetch('http://127.0.0.1:8000/save_goal/', {
+    fetch('https://shokh0505.pythonanywhere.com/save_goal/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -289,7 +289,7 @@ function handleGoalAdding() {
         }
     })
     .then(data => {
-        document.querySelector('.right-bar').innerHTML += 
+        document.querySelector('.right-bar').innerHTML +=
             `<hr>
             <div class="goal p-1" onclick="handleOpenSteps(event)" data-id=${data.goal_id}>
                 ${goal}
@@ -300,10 +300,10 @@ function handleGoalAdding() {
                     <input type="text" placeholder="Add a step" class="step-input-add">
                     <button class="btn btn-add-step ml-1" onclick="handleAddStep(event)">Add</button>
                 </div>
-            </div>`;    
+            </div>`;
     })
     .catch(error => console.log(error))
-    
+
     // Remove the input and the button
     document.querySelector('.input-goal').innerHTML = '';
     document.querySelector('.plus').style.display = 'flex';
@@ -336,9 +336,9 @@ function handleAddStep(event) {
     let steps = event.target.parentElement;
     steps = steps.parentElement;
     let goal_id = steps.previousElementSibling.dataset.id;
-    
+
     // --------------- Send step to save in the database -------------------- //
-    fetch('http://127.0.0.1:8000/save_step/', {
+    fetch('https://shokh0505.pythonanywhere.com/save_step/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -366,7 +366,7 @@ function handleAddStep(event) {
                 </div>`;
     })
     .catch(error => console.error(error))
-    
+
 }
 
 function handleStepSelection(event) {
@@ -423,7 +423,7 @@ function handleGoalSettings(event) {
 
     // ------------------- Add steps to the DOM ------------------------------------ //
     Array.from(steps).forEach(step => {
-        const stepFetch = fetch('http://127.0.0.1:8000/time_week/', {
+        const stepFetch = fetch('https://shokh0505.pythonanywhere.com/time_week/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -447,7 +447,7 @@ function handleGoalSettings(event) {
     });
 
     // ------------------ Show the percentage on the bar -------------------------- //
-    const percentageFetch = fetch('http://127.0.0.1:8000/get_percentage_week/', {
+    const percentageFetch = fetch('https://shokh0505.pythonanywhere.com/get_percentage_week/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -468,7 +468,7 @@ function handleGoalSettings(event) {
             document.querySelector('.percentage').innerText = `${data.percentage_week}%`;
             document.querySelector('.percentage').classList.remove('no-plan-text');
             document.querySelector('.circle').style.background = `conic-gradient(#4caf50 0% ${data.percentage_week}%, #ddd ${data.percentage_week}% 100%);`
-            
+
             // Add time spent to stepsHTML
             stepsHTML += `
                 <div class='mt-1 p-2 d-flex justify-content-between settings-info'>
@@ -493,7 +493,7 @@ function handleGoalSettings(event) {
     // --------------------------------------------------------------------- //
 
     // Wait for all fetches to complete before updating the innerHTML
-    Promise.all(fetchPromises).then(() => {            
+    Promise.all(fetchPromises).then(() => {
         stepsHTML += `<div class='d-flex justify-content-end pt-3 pr-2'>
                         <button class='btn btn-primary' onclick='handleSettingChange()'>Save Changes</button>
                     </div>`;
@@ -507,7 +507,7 @@ function handleGoalSettings(event) {
 function handleSettingChange(){
     let steps = document.querySelectorAll('.main-step');
     steps.forEach(step => {
-        fetch('http://127.0.0.1:8000/save_hours/', {
+        fetch('https://shokh0505.pythonanywhere.com/save_hours/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -523,11 +523,11 @@ function handleSettingChange(){
         .catch(error => console.log(error))
     })
 
-    
+
 }
 
 function get_percentage_step_bar(step_id){
-    fetch('http://127.0.0.1:8000/get_percentage_day/', {
+    fetch('https://shokh0505.pythonanywhere.com/get_percentage_day/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
