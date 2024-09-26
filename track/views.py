@@ -64,7 +64,7 @@ def save_goal(request):
         )
 
         goal.save()
-        return JsonResponse({'message': 'successfully created the goal'}, status=200)
+        return JsonResponse({'message': 'successfully created the goal', 'goal_id': goal.id}, status=200)
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -104,14 +104,13 @@ def save_step(request):
     except MultipleObjectsReturned:
         return Response({'message': 'Something went wrong!'}, status=400)
 
-
     step = Step(
         goal=goal,
         step_title=step
     )
 
     step.save()
-    return Response({'message': 'successfully created the step'}, status=201)
+    return Response({'message': 'successfully created the step', 'step_id': step.id}, status=201)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

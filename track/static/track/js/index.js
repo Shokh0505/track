@@ -269,6 +269,7 @@ function handleGoalAdding() {
 
     // Make a request to add the goal to the database
     csrf = getCookie('csrftoken');
+    let goal_id;
     fetch('http://127.0.0.1:8000/save_goal/', {
         method: 'POST',
         headers: {
@@ -288,22 +289,21 @@ function handleGoalAdding() {
         }
     })
     .then(data => {
-        console.log(data)
-    })
-    .catch(error => console.log(error))
-    
-    document.querySelector('.right-bar').innerHTML += 
+        document.querySelector('.right-bar').innerHTML += 
             `<hr>
-            <div class="goal p-1" onclick="handleOpenSteps(event)">
+            <div class="goal p-1" onclick="handleOpenSteps(event)" data-id=${data.goal_id}>
                 ${goal}
+                <i class="fa-solid fa-gear" onclick="handleGoalSettings(event)"></i>
             </div>
             <div class="steps-to-goal pl-3">
                 <div class="step-input">
                     <input type="text" placeholder="Add a step" class="step-input-add">
                     <button class="btn btn-add-step ml-1" onclick="handleAddStep(event)">Add</button>
                 </div>
-            </div>`;
-
+            </div>`;    
+    })
+    .catch(error => console.log(error))
+    
     // Remove the input and the button
     document.querySelector('.input-goal').innerHTML = '';
     document.querySelector('.plus').style.display = 'flex';
@@ -359,15 +359,14 @@ function handleAddStep(event) {
     })
     .then(data => {
         console.log(data);
-    })
-    .catch(error => console.error(error))
-    
-
-    steps.innerHTML += `
-                <div class="step mt-1" onclick="handleStepSelection(event)">
+        steps.innerHTML += `
+                <div class="step mt-1" onclick="handleStepSelection(event)" data-id="${data.step_id}">
                     <i class="fa-solid fa-angles-right pr-1"></i>
                     ${step}
                 </div>`;
+    })
+    .catch(error => console.error(error))
+    
 }
 
 function handleStepSelection(event) {
