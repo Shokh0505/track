@@ -136,25 +136,18 @@ function handleRight() {
 }
 
 let timeInterval;
-
-let seconds = 0;
-let minutes = 0;
-let hours = 0;
+let startTime;
+let elapsedTime = 0;
 
 // Start the timer
 function updateTime() {
-    seconds++;
-    if (seconds >= 60) {
-        minutes++;
-        seconds = 0;
-    }
-    if (minutes >= 60) {
-        hours++;
-        minutes = 0;
-    }
-    if (hours > 24) {
-        alert("You have reached the maximum time. Please update the timer to set new time. Well done!");
-    }
+    const currentTime = Date.now();
+    const totalTime = elapsedTime + (currentTime - startTime); // Total elapsed time in milliseconds
+
+    const totalSeconds = Math.floor(totalTime / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
 
     const formattedHours = String(hours).padStart(2, '0');
     const formattedMinutes = String(minutes).padStart(2, '0');
@@ -171,7 +164,9 @@ function handleStart(event) {
     btnStop.style.display = 'inline-block';
     event.target.style.display = 'none';
 
+    // Record the start time
     if (!timeInterval) {
+        startTime = Date.now(); // Record the current time
         timeInterval = setInterval(updateTime, 1000);
     }
 
@@ -193,8 +188,7 @@ function handleStart(event) {
         console.log(data);
         time_log_id = data.time_log_id;
     })
-    .catch(error => console.log(error))
-    // --------------------------------------------------------------------- //
+    .catch(error => console.log(error));
 }
 
 function handlePause(event){
@@ -214,19 +208,16 @@ function handlePause(event){
 }
 
 
-function handleStop(event){
+
+function handleStop(event) {
     document.querySelector('.btn-start').style.display = 'inline-block';
     document.querySelector('.btn-pause').style.display = 'none';
-    document.querySelector('.time').innerText = '00:00:00';
     event.currentTarget.style.display = 'none';
 
-    const duration = hours.toString().padStart(2, '0') + ':' +
-                    minutes.toString().padStart(2, '0') + ':' +
-                    seconds.toString().padStart(2, '0');
+    document.querySelector('.time').innerText = '00:00:00';
 
-    let step_id = document.querySelector('.step-selected').dataset.id;
+    const step_id = document.querySelector('.step-selected').dataset.id;
 
-    // -------------- save the duration ----------------- //
     fetch('https://shokh0505.pythonanywhere.com/stop_timer/', {
         method: 'POST',
         headers: {
@@ -234,23 +225,25 @@ function handleStop(event){
             'X-CSRFToken': csrftoken
         },
         body: JSON.stringify({
-            'time_log_id': time_log_id
+            'time_log_id': time_log_id // Only pass the time log ID
         })
     })
     .then(response => response.json())
     .then(data => console.log(data))
-    .catch(error => console.error(error))
-    // -------------------------------------------------- //
+    .catch(error => console.error(error));
 
+    // Reset internal time variables
     hours = 0;
     minutes = 0;
     seconds = 0;
-
+    elapsedTime = 0;
     clearInterval(timeInterval);
     timeInterval = null;
 
     get_percentage_step_bar(step_id);
 }
+
+
 
 function handleAddGoal() {
     const inputDiv = document.querySelector('.input-goal');
