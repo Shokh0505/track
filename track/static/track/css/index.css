@@ -2,7 +2,7 @@
 .main {
     height: 100vh;
     width: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
     url('../images/pexels-samerdaboul-1209998.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -142,7 +142,7 @@
     to {
         height: auto;
     }
-    
+
 }
 
 .step-animation {
@@ -290,6 +290,8 @@ hr {
 
 /* ---------------- Settings part ----------------- */
 .settings {
+    display: flex;
+    flex-direction: column;
     padding-top: 3rem;
     width: 70%;
 }
@@ -307,4 +309,21 @@ hr {
 
 .settings-info {
     font-size: 1.5rem;
+}
+
+@media only screen and (max-width: 480px) {
+    .settings {
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .main-step {
+        font-size: auto;
+    }
+
+    .main-step input {
+        height: 2rem;
+        width: 50%;
+        font-size: auto;
+    }
 }

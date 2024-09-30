@@ -14,61 +14,58 @@ document.addEventListener('DOMContentLoaded', () => {
             'X-CSRFToken': csrftoken
         }
     })
-    .then(response => {
-        return response.json()
-    })
-    .then(data => {
-        user_goals = data;
+    .then(response => response.json())
+    .then(user_goals => {
+        if (Array.isArray(user_goals)) {
+            const goalsHTML = user_goals.map(goal => `
+                <div class="goal p-1" data-id="${goal.id}" onclick="handleOpenSteps(event)">
+                    ${goal.title}
+                    <i class="fa-solid fa-gear" onclick="handleGoalSettings(event)"></i>
+                </div>
+                <div class="steps-to-goal pl-3">
+                    <div class="step-input">
+                        <input type="text" placeholder="Add a step" class="step-input-add">
+                        <button class="btn btn-add-step ml-1" onclick="handleAddStep(event)">Add</button>
+                    </div>
+                </div>
+                <hr>
+            `).join(''); // Join the array of strings into one big HTML string
 
-    if (Array.isArray(user_goals)) {
-    const goalsHTML = user_goals.map(goal => `
-        <div class="goal p-1" data-id="${goal.id}" onclick="handleOpenSteps(event)">
-            ${goal.title}
-            <i class="fa-solid fa-gear" onclick="handleGoalSettings(event)"></i>
-        </div>
-        <div class="steps-to-goal pl-3">
-            <div class="step-input">
-                <input type="text" placeholder="Add a step" class="step-input-add">
-                <button class="btn btn-add-step ml-1" onclick="handleAddStep(event)">Add</button>
-            </div>
-        </div>
-        <hr>
-    `).join(''); // Join the array of strings into one big HTML string
+            dom_goals.innerHTML = goalsHTML;
 
-    dom_goals.innerHTML = goalsHTML;
-    }})
-    .catch(error => console.error(error));
-    // ------------------- /Add goals to the dom ---------------------------------- //
-
-
-    // --------------- Get the steps ------------------------------ //
-    fetch('https://shokh0505.pythonanywhere.com/list_steps/', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrftoken
-        }
-    })
-    .then(res => {
-        if(res.ok){
-            return res.json()
-        }
-    })
-    .then(data => {
-        if(Array.isArray(data)) {
-            data.forEach(step => {
-                let goal_div = document.querySelector(`[data-id="${step.goal.id}"]`)
-                let steps = goal_div.nextElementSibling;
-                steps.innerHTML += `
-                    <div class="step mt-1" onclick="handleStepSelection(event)" data-id="${step.id}">
-                        <i class="fa-solid fa-angles-right pr-1"></i>
-                        ${step.step_title}
-                    </div>`
+            // ------------------- After goals are loaded, fetch steps ------------------- //
+            fetch('https://shokh0505.pythonanywhere.com/list_steps/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                }
             })
+            .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+            })
+            .then(steps_data => {
+                if (Array.isArray(steps_data)) {
+                    steps_data.forEach(step => {
+                        let goal_div = document.querySelector(`[data-id="${step.goal.id}"]`);
+                        if (goal_div) {
+                            let steps = goal_div.nextElementSibling;
+                            steps.innerHTML += `
+                                <div class="step mt-1" onclick="handleStepSelection(event)" data-id="${step.id}">
+                                    <i class="fa-solid fa-angles-right pr-1"></i>
+                                    ${step.step_title}
+                                </div>`;
+                        }
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching steps:', error));
         }
     })
-    .catch(error => console.error(error))
-
+    .catch(error => console.error('Error fetching goals:', error));
+    // ------------------- /Add goals and steps to the dom ------------------------ //
 
 });
 
@@ -464,15 +461,15 @@ function handleGoalSettings(event) {
 
             // Add time spent to stepsHTML
             stepsHTML += `
-                <div class='mt-1 p-2 d-flex justify-content-between settings-info'>
+                <div class='mt-1 p-2 d-flex justify-content-between settings-info order-1'>
                     <span> Time spent today </span>
                     <span> ${data.time_spend_today} </span>
                 </div>
-                <div class='mt-1 p-2 d-flex justify-content-between settings-info'>
+                <div class='mt-1 p-2 d-flex justify-content-between settings-info order-1'>
                     <span> Time spent this week </span>
                     <span> ${data.time_spend_week} </span>
                 </div>
-                <div class='mt-1 p-2 d-flex justify-content-between settings-info'>
+                <div class='mt-1 p-2 d-flex justify-content-between settings-info order-1'>
                     <span> Total time spent </span>
                     <span> ${data.total_time} </span>
                 </div>`;
@@ -487,7 +484,7 @@ function handleGoalSettings(event) {
 
     // Wait for all fetches to complete before updating the innerHTML
     Promise.all(fetchPromises).then(() => {
-        stepsHTML += `<div class='d-flex justify-content-end pt-3 pr-2'>
+        stepsHTML += `<div class='d-flex justify-content-end pt-3 pr-2 order-1'>
                         <button class='btn btn-primary' onclick='handleSettingChange()'>Save Changes</button>
                     </div>`;
         settings_div.classList.remove('hidden');
