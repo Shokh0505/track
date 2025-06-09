@@ -2,12 +2,13 @@
 const csrftoken = getCookie('csrftoken');
 let user_goals;
 let time_log_id;
+const URL_BACKEND = 'http://127.0.0.1:8000/'
 
 document.addEventListener('DOMContentLoaded', () => {
     let dom_goals = document.querySelector('.goals');
 
     // ------------------- Add goals to the dom ---------------------------------- //
-    fetch('https://shokh0505.pythonanywhere.com/list_goals/', {
+    fetch(`${URL_BACKEND}/list_goals/`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dom_goals.innerHTML = goalsHTML;
 
             // ------------------- After goals are loaded, fetch steps ------------------- //
-            fetch('https://shokh0505.pythonanywhere.com/list_steps/', {
+            fetch(`${URL_BACKEND}/list_steps/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -170,7 +171,7 @@ function handleStart(event) {
     // Hit the endpoint in order to notify we have started
     const step_id = document.querySelector('.step-selected').dataset.id;
 
-    fetch('https://shokh0505.pythonanywhere.com/start_time/', {
+    fetch(`${URL_BACKEND}/start_time/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -215,7 +216,7 @@ function handleStop(event) {
 
     const step_id = document.querySelector('.step-selected').dataset.id;
 
-    fetch('https://shokh0505.pythonanywhere.com/stop_timer/', {
+    fetch(`${URL_BACKEND}/stop_timer/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -260,7 +261,7 @@ function handleGoalAdding() {
     // Make a request to add the goal to the database
     csrf = getCookie('csrftoken');
     let goal_id;
-    fetch('https://shokh0505.pythonanywhere.com/save_goal/', {
+    fetch(`${URL_BACKEND}/save_goal/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -328,7 +329,7 @@ function handleAddStep(event) {
     let goal_id = steps.previousElementSibling.dataset.id;
 
     // --------------- Send step to save in the database -------------------- //
-    fetch('https://shokh0505.pythonanywhere.com/save_step/', {
+    fetch(`${URL_BACKEND}/save_step/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -413,7 +414,7 @@ function handleGoalSettings(event) {
 
     // ------------------- Add steps to the DOM ------------------------------------ //
     Array.from(steps).forEach(step => {
-        const stepFetch = fetch('https://shokh0505.pythonanywhere.com/time_week/', {
+        const stepFetch = fetch(`${URL_BACKEND}/time_week/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -437,7 +438,7 @@ function handleGoalSettings(event) {
     });
 
     // ------------------ Show the percentage on the bar -------------------------- //
-    const percentageFetch = fetch('https://shokh0505.pythonanywhere.com/get_percentage_week/', {
+    const percentageFetch = fetch(`${URL_BACKEND}/get_percentage_week/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -497,7 +498,7 @@ function handleGoalSettings(event) {
 function handleSettingChange(){
     let steps = document.querySelectorAll('.main-step');
     steps.forEach(step => {
-        fetch('https://shokh0505.pythonanywhere.com/save_hours/', {
+        fetch(`${URL_BACKEND}/save_hours/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -517,7 +518,7 @@ function handleSettingChange(){
 }
 
 function get_percentage_step_bar(step_id){
-    fetch('https://shokh0505.pythonanywhere.com/get_percentage_day/', {
+    fetch(`${URL_BACKEND}/get_percentage_day/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
